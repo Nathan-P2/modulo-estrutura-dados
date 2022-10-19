@@ -1,0 +1,75 @@
+<script src="fila.js"></script>
+
+<script>
+  const fila = new Fila
+
+  let idadePaciente, nomePaciente, quantidadeVezesPassouMedico
+  let quantidadeMedicamentosEstoque, quantidadeMedicamentosPaciente
+  let itemMenu
+  let paciente = {}
+
+  function menu() {
+    itemMenu = prompt("O que você gostaria de acessar? 1 - Cadastro, 2 - Controle de Estoque, 3 - Atender proximo paciente, 0 - Sair")
+  }
+
+  function verificaCasoUrgente(quantidadeVezesPassouMedico, idadePaciente) {
+    if(quantidadeVezesPassouMedico > 5) {
+      console.log("Esse paciente é um caso urgente!")
+    } else if(idadePaciente > 60) {
+      console.log("Esse paciente é um caso urgente!")
+    } else {
+      console.log("Esse paciente NÃO é um caso urgente")
+    }
+  }
+
+  function verificaEstoque() {
+    while(quantidadeMedicamentosEstoque > 0) {
+      quantidadeMedicamentosPaciente = prompt("Quanto medicamento você quer dar ao paciente?")
+      quantidadeMedicamentosEstoque = quantidadeMedicamentosEstoque - quantidadeMedicamentosPaciente
+      console.log("Quantidade de medicamentos restantes: " + quantidadeMedicamentosEstoque)
+    }
+  }
+
+  menu()
+
+  while(itemMenu != 0) {
+    if(itemMenu == 1) {
+      nomePaciente = prompt("Qual o nome do paciente?")
+      idadePaciente = prompt("Qual a idade do paciente?")
+      quantidadeVezesPassouMedico = prompt("Quantas vezes o paciente passou no médico?")
+
+      paciente = {
+        nomePaciente,
+        idadePaciente,
+        quantidadeVezesPassouMedico
+      }
+
+      fila.enfileirar(paciente)
+
+      console.log(fila.items)
+
+      verificaCasoUrgente(quantidadeVezesPassouMedico, idadePaciente)
+
+      console.log("Nome do paciente cadastrado :" + nomePaciente)
+      console.log("Idade do paciente cadastrado: " + idadePaciente)
+      console.log("QUantidade de vezes que passou no médico: " + quantidadeVezesPassouMedico)
+      menu()
+    } else if(itemMenu == 2) {
+      quantidadeMedicamentosEstoque = prompt("Quanto medicamento possui em estoque?")
+
+      verificaEstoque()
+
+      if(quantidadeMedicamentosEstoque <= 0) {
+        console.log("O estoque de medicamentos acabou!")
+      }
+
+      menu()
+    } else if(itemMenu == 3) {
+      fila.desenfileirar()
+
+      console.log(fila.items)
+
+      menu()
+    }
+  }
+</script>
